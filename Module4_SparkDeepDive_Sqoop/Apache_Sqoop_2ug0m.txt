@@ -1,0 +1,76 @@
+-- Connect to SQL Server 
+# mysql -u<user_name> -p<pwd>
+
+
+1) sqoop list-databases
+
+sqoop list-databases --connect jdbc:mysql://dbserver.edu.cloudlab.com \
+--username edu_labuser \
+--password edureka
+
+# sqoop list-databases --connect jdbc:mysql://localhost --username shubhamsag91edu -password PurplePig96@
+
+# sqoop list-databases --connect jdbc:mysql://ip-10-1-1-204.ap-south-1.compute.internal --username shubhamsag91edu -password PurplePig15@
+
+
+2) sqoop list-tables
+
+# sqoop list-tables --connect jdbc:mysql://localhost/shubhamsag91edu --username shubhamsag91edu -password PurplePig96@
+
+3) sqoop eval
+
+# sqoop eval --connect jdbc:mysql://localhost/shubhamsag91edu --username shubhamsag91edu -password PurplePig96@ --query "select * from emp_sepbatch_test"
+
+4) DDL using eval
+
+# sqoop eval --connect jdbc:mysql://localhost/shubhamsag91edu --username shubhamsag91edu -password PurplePig96@ \
+--query "create table emp_sepbatch_test(ID Int,Name varchar(200), Dept varchar(200), Salary Double)"
+
+5) DML using eval
+
+# sqoop eval --connect jdbc:mysql://localhost/shubhamsag91edu --username shubhamsag91edu -password PurplePig96@ \
+--query "insert into emp_sepbatch_test values(1,'Miranda', 'Onco', 25000.0)"
+
+# sqoop eval --connect jdbc:mysql://localhost/shubhamsag91edu --username shubhamsag91edu -password PurplePig96@ \
+--query "insert into emp_sepbatch_test values(2,'Meredith', 'General', 20000.0)"
+
+6) sqoop import
+
+# sqoop import --connect jdbc:mysql://ip-10-1-1-204.ap-south-1.compute.internal/shubhamsag91edu --username shubhamsag96edu -password PurplePig96@ \
+--table emp \
+--target-dir '/user/shubhamsag91edu/sqoop/emp/' \
+--driver 'com.mysql.jdbc.Driver'
+
+# sqoop import --connect jdbc:mysql://ip-10-1-1-204.ap-south-1.compute.internal/shubhamsag91edu --username shubhamsag96edu -password PurplePig96@ \
+--table emp_with_primary \
+--target-dir '/user/shubhamsag91edu/sqoop/emp_with_primary/' \
+--driver 'com.mysql.jdbc.Driver' \
+--delete-target-dir
+
+
+7) Incremental Append 
+
+# sqoop import  \
+--connect jdbc:mysql://ip-10-1-1-204.ap-south-1.compute.internal/shubhamsag91edu \
+--username shubhamsag91edu \
+--password PurplePig96@ \
+--table emp_with_primary \
+--target-dir '/user/shubhamsag91edu/sqoop/emp_with_primary/' \
+--driver 'com.mysql.jdbc.Driver' \
+--incremental append \
+--check-column ID \
+--last-value 8 \
+--driver 'com.mysql.jdbc.Driver'
+
+9) sqoop export 
+
+sqoop export\
+--connect jdbc:mysql://dbserver.edu.cloudlab.com/labuser_database \
+--username edu_labuser \
+--password PurplePig96@ \
+--table emp_with_primary \
+--export-dir /common4all/edureka_200115/may/emp_test
+
+sqoop export --connect jdbc:mysql://dbserver.edu.cloudlab.com/labuser_database --username edu_labuser --password edurek
+a --table emp_shubham_test1 --export-dir /common4all/edureka_200115/nov_test1/emp_shubham/
+
